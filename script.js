@@ -1,76 +1,146 @@
+var csvData = new Array();
+var rpmData = [{x: [],y:[]}];
+var movementFastData = [{x: [],y:[]}];
+var distanceData = [{x: [],y:[]}];
+
+var phaseData = new Array();
+
+
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+
+      if (this.readyState == 4 && this.status == 200) {
+        var jsonObject = request.responseText.split(/\r?\n|\r/);
+        for (var i = 0; i < jsonObject.length; i++) {
+          csvData.push(jsonObject[i].split(','));
+        }
+        
+        for (let i = 1 ; i <  csvData.length; i++) {
+            rpmData[0].x.push(csvData[i][0])
+            rpmData[0].y.push(csvData[i][2])
+
+            movementFastData[0].x.push(csvData[i][0])
+            movementFastData[0].y.push(parseInt( csvData[i][5]))
+
+            distanceData[0].x.push(csvData[i][0])
+            distanceData[0].y.push(csvData[i][3])
+           
+           }
+        }
+
+    };
+    request.open("GET", 'https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/data_example.csv', false);   
+    request.send(null);  
+
+//-----------------------------------------------------------------------------------------------
+
+
+// var request = new XMLHttpRequest();
+// function get(url, callback) {
+//     request.onreadystatechange = function() {
+//       if (request.readyState === 4 && request.status === 200) {
+//         if ('function' === typeof callback) {
+//           callback(request.responseText);
+//         }
+//       }
+//     };
+//     request.open('GET', url, false)
+//     // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//     request.send();
+//   }
+
+//   get('https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/data_example.csv', function(jsonObject) {
+
+//      jsonObject = request.responseText.split(/\r?\n|\r/);
+//     for (var i = 0; i < jsonObject.length; i++) {
+//       csvData.push(jsonObject[i].split(','));
+//     }
+    
+//     for (let i = 1 ; i <  csvData.length; i++) {
+//         rpmData[0].x.push(csvData[i][0])
+//         rpmData[0].y.push(csvData[i][2])
+
+//         movementFastData[0].x.push(csvData[i][0])
+//         movementFastData[0].y.push(parseInt( csvData[i][5]))
+
+//         distanceData[0].x.push(csvData[i][0])
+//         distanceData[0].y.push(csvData[i][3])
+       
+//        }
+  
+//     get('https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/phase-example.csv', function(jsonObjectA) {
+
+//          jsonObjectA = jsonObjectA.responseText.split(/\r?\n|\r/);
+//             for (var i = 0; i < jsonObjectA.length; i++) {
+//                 phaseData.push(jsonObjectA[i].split(','));
+//             }
+//     });
+  
+//   });
+
+
+
+// var requesta = new XMLHttpRequest();
+// requesta.onreadystatechange = function() {
+
+//   if (this.readyState == 4 && this.status == 200) {
+//     var jsonObjectA = jsonObjectA.responseText.split(/\r?\n|\r/);
+//     for (var i = 0; i < jsonObjectA.length; i++) {
+//         phaseData.push(jsonObjectA[i].split(','));
+//     }
+    
+  
+//     }
+
+// };
+// requesta.open("GET", 'https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/phase-example.csv', false);   
+// requesta.send(null); 
+
+// console.log('phaseData:', phaseData);
+
+//----------------------------------------------------------------------------------------------
+
 var myDiv = document.getElementById("myDiv");
 var myDiv2 = document.getElementById("myDiv2");
 var myDiv3 = document.getElementById("myDiv3");
-var startTime = new Date().getTime();
-var timeStep = 60000;
-var myDivMax = 70;
-var myDiv2Max = 9000;
-var myDiv3Max = 500;
 
-var d3 = Plotly.d3,
-  N = 40,
-  x = d3.range(N).map(() => {
-    return new Date((startTime += timeStep));
-  }),
-  y = d3.range(N).map(() => Math.random() * myDivMax),
-  data = [{ x: x, y: y }];
-var layout = {
-  height: 200,
-  margin: { l: 45, t: 5, r: 45, b: 45 },
-  xaxis: {
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  },
-  yaxis: {
-    fixedrange: true,
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  }
-};
-var layout2 = {
-  height: 200,
-  margin: { l: 45, t: 5, r: 45, b: 45 },
-  xaxis: {
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  },
-  yaxis: {
-    fixedrange: true,
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  }
-};
-var layout3 = {
-  height: 200,
-  margin: { l: 45, t: 5, r: 45, b: 45 },
-  xaxis: {
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  },
-  yaxis: {
-    fixedrange: true,
-    tickfont: {
-      size: 10,
-      color: "#7f7f7f"
-    }
-  }
-}; 
 
-Plotly.plot(myDiv, data, layout);
-var data2 = [{ x: x, y: d3.range(N).map(() => Math.random() * myDiv2Max) }];
-Plotly.plot(myDiv2, data2, layout2);
-var data3 = [{ x: x, y: d3.range(N).map(() => Math.random() * myDiv3Max) }];
-Plotly.plot(myDiv3, data3, layout3);
+
+layoutRPM = { 
+    hovermode:'closest',
+    title:'<br> click on a point to plot an annotation',
+    xaxis:{zeroline:false, title: 'Time '},
+    yaxis:{zeroline:false, title: 'RPM'}
+ };
+
+
+ layoutMovementFast = { 
+    hovermode:'closest',
+    title:'<br> click on a point to plot an annotation',
+    xaxis:{zeroline:false, title: 'Time '},
+    yaxis:{zeroline:false, title: 'Movement Fast'}
+ };
+
+
+ layoutDistance = { 
+    hovermode:'closest',
+    title:'<br> click on a point to plot an annotation',
+    xaxis:{zeroline:false, title: 'Time '},
+    yaxis:{zeroline:false, title: 'Distance'}
+ };
+
+var data = rpmData;
+var data2 = movementFastData;
+var data3 = distanceData;
+
+
+
+Plotly.plot(myDiv, data, layoutRPM);
+Plotly.plot(myDiv2, data2, layoutMovementFast);
+Plotly.plot(myDiv3, data3, layoutDistance);
+
+
 
 var divs = [myDiv, myDiv2, myDiv3];
 
@@ -89,7 +159,8 @@ function relayout(ed, divs) {
 var plots = [myDiv, myDiv2, myDiv3];
 plots.forEach(div => {
   div.on("plotly_relayout", function(ed) {
-    console.log(ed);
     relayout(ed, divs);
   });
 });
+
+
