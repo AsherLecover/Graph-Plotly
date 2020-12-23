@@ -1,17 +1,30 @@
-#myDiv {
+h1{
+    text-align: center;
+}
+#rpmDiv {
 
     border: 3px black solid;
     margin-bottom: 1%;
 }
-#myDiv2 {
+#dotsDiv {
 
     border: 3px black solid;
     margin-bottom: 1%;
 
 }
-#myDiv3 {
+#mfDiv {
 
     border: 3px black solid;
     margin-bottom: 1%;
+}
 
+#distanceDiv {
+
+    border: 3px black solid;
+    margin-bottom: 1%;
+}
+#heatmapDiv {
+
+    border: 3px black solid;
+    margin-bottom: 1%;
 }
