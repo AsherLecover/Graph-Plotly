@@ -23,7 +23,7 @@ function get(url, callback) {
     request.send(null);
   }
 
-  get('https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/phase-example.csv', function(jsonObjectPhase) {
+  get('assets/phase-example.csv', function(jsonObjectPhase) {
 
     jsonObjectPhase = jsonObjectPhase.split(/\r?\n|\r/);
           for (var i = 0; i < jsonObjectPhase.length; i++) {
@@ -41,7 +41,7 @@ function get(url, callback) {
 
  
 
-  get('https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/data_example.csv', function(jsonObject) {
+  get('assets/data_example.csv', function(jsonObject) {
 
      jsonObject = jsonObject.split(/\r?\n|\r/);
     for (var i = 0; i < jsonObject.length; i++) {
@@ -62,7 +62,7 @@ function get(url, callback) {
   
 
 
-    get('https://raw.githubusercontent.com/AsherLecover/Graph-Data/master/treatment-example.csv', function(jsonObjectTreatment) {
+    get('assets/treatment-example.csv', function(jsonObjectTreatment) {
 
       jsonObjectTreatment = jsonObjectTreatment.split(/\r?\n|\r/);
       for (var i = 0; i < jsonObjectTreatment.length; i++) {
