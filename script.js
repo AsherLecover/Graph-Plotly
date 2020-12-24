@@ -11,7 +11,6 @@ var heatmapData = [
     y: [],
     z: [],
     type: "heatmap",
-    hoverongaps: false,
   },
 ];
 
@@ -38,9 +37,11 @@ get("assets/phase-example.csv", function (jsonObjectPhase) {
   for (var i = 0; i < jsonObjectPhase.length; i++) {
     phaseData.push(jsonObjectPhase[i].split(","));
     if (i > 0) {
-      heatmapData[0].x.push(new Date(parseFloat(phaseData[i][0])));
+      heatmapData[0].x.push(new Date( convetDate(parseFloat(phaseData[i][0]))));
     }
   }
+ 
+  console.log(heatmapData);
 
   for (let i = 2; i < phaseData[0].length; i++) {
     heatmapData[0].y.push(phaseData[0][i]);
@@ -60,6 +61,10 @@ get("assets/phase-example.csv", function (jsonObjectPhase) {
 
 });
 
+function convetDate(timestamp){
+ let date = new Date(timestamp * 1000).toString()
+   return   date.substring(4, 24) 
+}
 
 function minMax(items) {
   return items.reduce((acc, val) => {
@@ -84,6 +89,7 @@ get("assets/data_example.csv", function (jsonObject) {
     distanceData[0].x.push(csvData[i][0]);
     distanceData[0].y.push(csvData[i][3]);
   }
+  console.log(rpmData);
 
   get("assets/treatment-example.csv", function (jsonObjectTreatment) {
     jsonObjectTreatment = jsonObjectTreatment.split(/\r?\n|\r/);
